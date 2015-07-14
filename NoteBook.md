@@ -17,8 +17,16 @@ The aim of this project is to test and genotype 12 microsatellites in *Bombina v
 (papers of Hauswaldt et
 al., 2007; Stuckas & Tiedemann, 2006).
 
-
-
+Primer name |sequence | GenBank| Repeat| Ta| Allele size in *B.variegata*|Ref
+:--:|:--:|:--:|:--:|:--:|:--:|:--:
+BobomF2.for|5’AGC AGA GAT GAG AGG ACA GTG|AJ877247 |(GA)20|60|480, 456| Hauswaldt *et al*. 2007
+BobomF2.rev|5’TCA GGG GTA GCA GAT TTT CAG||||
+BobomF22.for |5′AGG CAA AGG ATT CTG AGA ATG|AJ877250| (GA)30|56| 132| Hauswaldt *et al.* 2007
+BobomF22.rev| 5′CCT TCA AAG TCG AAA AAT ATT||||
+BobomB13.for| 5′ATA TTT CTT GCT ATG TTG ATG|AJ877251| (GA)22|46 |126, 134|Hauswaldt *et al.* 2007
+BobomB13.rev| 5′AAT TGT TTA ACT TAT TTT ATA||||
+BobomB14.for| 5′ACT AAC CTG CCA CAT AAC TTG|AJ877254| (TC)4T(TC)7T|48| 184, 186
+BobomB14.rev| 5′CTG GGT TTT TTA ATT GGA AGG| (TC)9GC(TC)7||||
 
 - Some of these primers were problematic when applied to populations from Alsace region (2 problematic, 2 fixed)
 - Similar for populations around Lac Léman (1 problematic, 3 fixed)
