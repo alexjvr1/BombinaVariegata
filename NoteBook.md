@@ -89,3 +89,9 @@ We are bound to EcoRI, because of our adapters (from the GDC).
 1. EcoRI + MseI (6 + 4-cutter: same as my protocol)
 2. EcoRI + MspI (6 + 4-cutter: probably the same as in 1)
 3. EcoRI + PstI (6 + 6-cutter: likely the best option)
+
+#2. & 3. Basic stats & differentiation
+
+See ddRAD pipeline
+
+#4. 
