@@ -46,3 +46,26 @@ most time consuming aspect of developing microsat.
 >>> there are more developped for BOVA or/and BOBO, but I should ask
 Jean-Pierre Vacher (the first that conducted the genetic analyses on
 Bombina) why he selected only those ones.
+
+
+##ddRAD
+
+Since the aim of the study is to infer movement between populations, it seems like using many markers would give the highest probability of finding these signatures in a population with low expected genetic divergence. 
+
+We will try a ddRAD approach on the *B.variegata*
+
+**B.variegata* has a very large genome: 9-10pg ~10Gb.
+
+This is >2x as large as Rana temporaria. Since I am already getting rather low coverage for my samples, using a different enzyme combination is probably wise. 
+
+- For Rana temporaria, I am currently using a 6-cutter (EcoRI) and a 4-cutter (MseI). 
+- GeCKo protocol uses a 6-cutter (PstI) and a 4-cutter (MspI)
+- Alan Brelsford has switched to an 8-cutter (SbfI) with a 4-cutter (MseI)
+
+
+
+
+2 samples each were chosen from 2 locations. 
+
+Aim: 
+1. Find enzyme combination 
