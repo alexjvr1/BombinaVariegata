@@ -63,13 +63,29 @@ This is >2x as large as Rana temporaria. Since I am already getting rather low c
 - Alan Brelsford has switched to an 8-cutter (SbfI) with a 4-cutter (MseI)
 
 
+How many loci are needed? 
 
+- I'm generating 100-500 000 loci per individual for *R.temp*
+- We don't need as many for the population genetics study
+- It depends on the expected genetic diversity in the population (large pop sizes & meta-population structure -> unlikely to be highly inbred)
+- 
 
 2 samples each were chosen from 2 locations. 
 
 Aim: 
 
-1. Find enzyme combination that will produce ~50000 loci. 
+1. Find enzyme combination that will produce ~50000-100000 loci. 
 2. Assess genetic diversity across all individuals, and per pop
 3. Determine genetic distance between populations (per locus Fst, PCA, Structure)
 4. 
+
+
+#1. Which enzyme combination is best?
+
+The worry is that we sequence too many loci & lose them due to low coverage across loci. This is not such a problem with many individuals per population (probabilitstic models for calling bases), but not good enough for the test. 
+
+We are bound to EcoRI, because of our adapters (from the GDC). 
+
+1. EcoRI + MseI (6 + 4-cutter: same as my protocol)
+2. EcoRI + MspI (6 + 4-cutter: probably the same as in 1)
+3. EcoRI + PstI (6 + 6-cutter: likely the best option)
