@@ -68,4 +68,7 @@ This is >2x as large as Rana temporaria. Since I am already getting rather low c
 2 samples each were chosen from 2 locations. 
 
 Aim: 
-1. Find enzyme combination 
+1. Find enzyme combination that will produce ~50000 loci. 
+2. Assess genetic diversity across all individuals, and per pop
+3. Determine genetic distance between populations (per locus Fst, PCA, Structure)
+4. 
