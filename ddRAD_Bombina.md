@@ -73,3 +73,52 @@ Outputting VCF file...
 After filtering, kept 555 out of a possible 555 Sites
 Run Time = 0.00 seconds
 ```
+
+Filter for a depth of 3, but this has already been filtered in pyRAD
+
+```
+vcftools --vcf BomN4test.recode.vcf --minDP 3 --recode --recode-INFO-all --out BomN4testMinDepth3
+
+VCFtools - 0.1.14
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf BomN4test.recode.vcf
+	--recode-INFO-all
+	--minDP 3
+	--out BomN4testMinDepth3
+	--recode
+
+After filtering, kept 4 out of 4 Individuals
+Outputting VCF file...
+After filtering, kept 555 out of a possible 555 Sites
+Run Time = 0.00 seconds
+```
+
+
+Assess the missingness
+```
+vcftools --vcf BomN4test.recode.vcf --missing-indv  ##creates and imiss file which we can then plot
+
+mawk '!/IN/' out.imiss | cut -f5 > totalmissing
+
+gnuplot << \EOF 
+set terminal dumb size 120, 30
+set autoscale 
+unset label
+set title "Histogram of % missing data per individual"
+set ylabel "Number of Occurrences"
+set xlabel "% of missing data"
+#set yr [0:100000]
+binwidth=0.01
+bin(x,width)=width*floor(x/width) + binwidth/2.0
+plot 'totalmissing' using (bin( $1,binwidth)):(1.0) smooth freq with boxes
+pause -1
+EOF
+```
+
+
+
+```
+
+```
