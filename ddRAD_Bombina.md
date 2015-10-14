@@ -8,12 +8,68 @@ I received the data back from FGCZ 14 Oct 2015. The samples were run in H20, whi
 
 Overall, it looks like the Bombina samples were very under represented. I added equal amounts of DNA into the library. Ideally Bombina should have had 3 times as much DNA in the library as the Rana temporaria samples (since the genome is ~3x bigger), but due to limited DNA, this wasn't possible. 
 
-Subsequently, 
+Subsequently, there are many loci sequenced, but 94% of the sequences are singletons. 
 
+This shouldn't be a problem if samples are equally represented (i.e. all Bombina). 
+
+We should also use a different restriction enzyme so that less loci are sequenced. The size selection could possibly be adjusted. 
+
+
+Demultiplexing was done using process_radtags from Stacks. 
+
+Adapter dimers removed using Trimmomatic
+
+Both on FGCZ server
 ```
 
 ```
 
+De novo assembly was conducted using pyRAD (on fgcz) at 94% clustering.
+
+This still needs to be optimised for Bombina. 
+
+
+Subsequent SNP filtering done using VCFtools
+
 ```
-vcftools --vcf subset.final.vcf --maf 0.25 --recode --recode-INFO-all --out subset.final.maf25
+/usr/local/ngseq/stow/vcftools-v-0.1.14-2/bin/vcftools --vcf BomN4Clust94.vcf --maf 0.25 --recode --recode-INFO-all --out Bom.test
+
+VCFtools - 0.1.14
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf BomN4Clust94.vcf
+	--recode-INFO-all
+	--maf 0.25
+	--out Bom.test
+	--recode
+
+Eighth Header entry should be INFO: INFO    
+After filtering, kept 4 out of 4 Individuals
+Outputting VCF file...
+After filtering, kept 535 out of a possible 555 Sites
+Run Time = 0.00 seconds
+
+```
+
+Can't filter for MAC of 3, since there are only 4 individuals
+
+```
+/usr/local/ngseq/stow/vcftools-v-0.1.14-2/bin/vcftools --vcf BomN4Clust94.vcf --max-missing 0 --mac 1 --recode --recode-INFO-all --out BomN4test 
+
+VCFtools - 0.1.14
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf BomN4Clust94.vcf
+	--recode-INFO-all
+	--mac 1
+	--out BomN4test
+	--recode
+
+Eighth Header entry should be INFO: INFO    
+After filtering, kept 4 out of 4 Individuals
+Outputting VCF file...
+After filtering, kept 555 out of a possible 555 Sites
+Run Time = 0.00 seconds
 ```
