@@ -116,6 +116,127 @@ plot 'totalmissing' using (bin( $1,binwidth)):(1.0) smooth freq with boxes
 pause -1
 EOF
 ```
+Results show that CHR samples are missing 80% of the data (out of 555 sites). 
+
+
+If I use vcftools to calculate Fst between populations, we get: 
+```
+--vcf BomN4min10.recode.vcf --weir-fst-pop CHRpop.txt --weir-fst-pop ZINpop.txt --out fstZIN.CHR
+
+VCFtools - v0.1.12b
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf BomN4min10.recode.vcf
+	--weir-fst-pop CHRpop.txt
+	--weir-fst-pop ZINpop.txt
+	--out fstZIN.CHR
+
+After filtering, kept 4 out of 4 Individuals
+Outputting Weir and Cockerham Fst estimates.
+Weir and Cockerham mean Fst estimate: 0.049769
+Weir and Cockerham weighted Fst estimate: 0.28993
+After filtering, kept 555 out of a possible 555 Sites
+```
+
+Well, that looks pretty good! Higher than I expected. 
+
+Lets see what the Fst is when I mix the individuals up: pop1=CHR01 and ZIN01 vs pop2= CHR02 and ZIN02
+
+```
+--vcf BomN4min10.recode.vcf --weir-fst-pop CHR2.ZIN2.txt --weir-fst-pop CHR1.ZIN1.txt --out fstmix1vs2
+
+VCFtools - v0.1.12b
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf BomN4min10.recode.vcf
+	--weir-fst-pop CHR2.ZIN2.txt
+	--weir-fst-pop CHR1.ZIN1.txt
+	--out fstmix1vs2
+
+After filtering, kept 4 out of 4 Individuals
+Outputting Weir and Cockerham Fst estimates.
+Weir and Cockerham mean Fst estimate: -0.41164
+Weir and Cockerham weighted Fst estimate: -0.29295
+After filtering, kept 555 out of a possible 555 Sites
+```
+
+What do the negative Fst values mean?
+
+
+
+If I filter for 0.75 missingness across loci (i.e. 3/4 of the individuals scored per locus), I end up with 69 sites: 
+```
+--vcf BomN4min10.recode.vcf --max-missing 0.75 --recode --recode-INFO-all --out maxmissloci.75
+
+VCFtools - v0.1.12b
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf BomN4min10.recode.vcf
+	--recode-INFO-all
+	--max-missing 0.75
+	--out maxmissloci.25
+	--recode
+
+After filtering, kept 4 out of 4 Individuals
+Outputting VCF file...
+After filtering, kept 69 out of a possible 555 Sites
+Run Time = 0.00 seconds
+```
+
+
+If I then run the same Fst calculations as before: 
+
+```
+vcftools --vcf maxmissloci.25.recode.vcf --weir-fst-pop CHRpop.txt --weir-fst-pop ZINpop.txt --out fstZIN.CHR
+
+VCFtools - v0.1.12b
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf maxmissloci.25.recode.vcf
+	--weir-fst-pop CHRpop.txt
+	--weir-fst-pop ZINpop.txt
+	--out fstZIN.CHR
+
+After filtering, kept 4 out of 4 Individuals
+Outputting Weir and Cockerham Fst estimates.
+Weir and Cockerham mean Fst estimate: 0.049769
+Weir and Cockerham weighted Fst estimate: 0.28993
+After filtering, kept 69 out of a possible 69 Sites
+
+```
+
+And for the mixed pops:
+```
+--vcf maxmissloci.25.recode.vcf --weir-fst-pop CHR2.ZIN2.txt --weir-fst-pop CHR1.ZIN1.txt --out fstmix1vs2
+
+VCFtools - v0.1.12b
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf maxmissloci.25.recode.vcf
+	--weir-fst-pop CHR2.ZIN2.txt
+	--weir-fst-pop CHR1.ZIN1.txt
+	--out fstmix1vs2
+
+After filtering, kept 4 out of 4 Individuals
+Outputting Weir and Cockerham Fst estimates.
+Weir and Cockerham mean Fst estimate: -0.41164
+Weir and Cockerham weighted Fst estimate: -0.29295
+After filtering, kept 69 out of a possible 69 Sites
+```
+These values are identical. So I wonder if the Fst calculations are based only on loci scored across all individuals??
+
+
+
+After reading a bit, I'm worried about the Fst calculation in vcftools. I'm going to transfer the data to my computer, and run some analyses in R.
+
+```
+
+```
 
 
 
