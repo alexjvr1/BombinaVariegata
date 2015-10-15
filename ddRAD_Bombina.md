@@ -234,12 +234,53 @@ These values are identical. So I wonder if the Fst calculations are based only o
 
 After reading a bit, I'm worried about the Fst calculation in vcftools. I'm going to transfer the data to my computer, and run some analyses in R.
 
+Convert the .vcf into a Plink file
+
+```
+vcftools --vcf maxmissloci.75.recode.vcf --out Bomb69.PLINK --plink
+
+plink --file Bomb69.PLINK --out Bomb69test --recodeA
+
+
+Writing this text to log file [ Bomb69test.log ]
+Analysis started: Thu Oct 15 13:36:29 2015
+
+Options in effect:
+	--file Bomb69.PLINK
+	--out Bomb69test
+	--recodeA
+
+69 (of 69) markers to be included from [ Bomb69.PLINK.map ]
+Warning, found 4 individuals with ambiguous sex codes
+Writing list of these individuals to [ Bomb69test.nosex ]
+4 individuals read from [ Bomb69.PLINK.ped ] 
+0 individuals with nonmissing phenotypes
+Assuming a disease phenotype (1=unaff, 2=aff, 0=miss)
+Missing phenotype value is also -9
+0 cases, 0 controls and 4 missing
+0 males, 0 females, and 4 of unspecified sex
+Before frequency and genotyping pruning, there are 69 SNPs
+4 founders and 0 non-founders found
+Total genotyping rate in remaining individuals is 0.789855
+0 SNPs failed missingness test ( GENO > 1 )
+0 SNPs failed frequency test ( MAF < 0 )
+After frequency and genotyping pruning, there are 69 SNPs
+After filtering, 0 cases, 0 controls and 4 missing
+After filtering, 0 males, 0 females, and 4 of unspecified sex
+Writing recoded file to [ Bomb69test.raw ] 
+```
+
+
+copy everything over to the mac
+```
+ scp -r alexjvr@gdcsrv1.ethz.ch:/gdc_home4/alexjvr/Bombina/Filtered/* .
+```
+
+
+
+
 ```
 
 ```
 
-
-
-```
-
-```
+AMOVA
