@@ -277,6 +277,25 @@ copy everything over to the mac
 ```
 
 
+##2 Nov 2015
+
+Aim: Prepare 1 library for HiSeq with the following conditions: 
+
+1. 24 individually barcoded samples 
+2. PstI + EcoRI enzymes
+3. Selective Illumina adapters? - The selective Illumina primer that I'm using selectively sequences only 25% of the sequences (A/G/C/T). With the new enzyme combination, I'm not sure how many loci to expect, so I'm not sure whether the selective primer is necessary to further reduce the number of sequences. 
+
+
+I have to design new P2 adapters for the PstI cutsite. I've left a T after the 4bp overhang, so that I can use the Illumina primers that I already have available: 
+
+PstIFwd
+5' AGATCGGAAGAGCACACGTCTGAACTCCAGTCA 3'
+
+PstIRev
+5' TGACTGGAGTTCAGACGTGTGCTCTTCCGATCTTGCA 3'
+
+
+
 
 
 ```
