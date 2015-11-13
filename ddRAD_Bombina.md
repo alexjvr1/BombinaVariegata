@@ -319,3 +319,15 @@ AMOVA
 3. Determine whether individuals from the derived populations can be assigned to the original populations
 
 
+###Samples
+
+Sam chose samples to represent 3 of the original populations (5-6 individuals each), and several individuals from the derived populations to test whether they can be assigned to the original populations. 
+
+Samples from 2012 had much lower DNA yields than 2015 samples. DNA may have degraded during storage, or swabbing protocols have changed between years. 
+
+Libraries are prepared starting with 12ug of DNA. i.e. 500ng per sample. This equates to at least 5.7ng/ul of DNA made up to 88ul with UHQ. 
+
+
+
+
+
