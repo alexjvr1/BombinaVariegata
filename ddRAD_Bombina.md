@@ -307,3 +307,15 @@ AMOVA
 
 ##Samples to include in first test run
 
+
+##ddRAD H1 (BVH1) 15 Nov 2015
+
+###Aim
+
+1. Test the new ddRAD protocol (new enzymes & adapters; less samples per lane)
+
+2. Characterise population structure
+
+3. Determine whether individuals from the derived populations can be assigned to the original populations
+
+
