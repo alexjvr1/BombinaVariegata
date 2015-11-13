@@ -331,25 +331,27 @@ The lowest amount of DNA is 400ng, so I will decrease the starting amount to 400
 
 I will need to concentrate the following samples: 
 
-1. 12A_IBA_005 (E01/B05) - combined with duplicate extract
+1. 
 
-2. 12A_IBA_006 (E01/B06) - combined with duplicate extract
+2. 12A_IBA_005 (E01/B05) - combined with duplicate extract
 
-3. 12A_IBA_007 (Box3)
+3. 12A_IBA_006 (E01/B06) - combined with duplicate extract
 
-4. 12A_IBA_009 (Box3)
+4. 12A_IBA_007 (Box3)
 
-5. 12A_UNT_002 (E01/A08) - combined with duplicate extract
+5. 12A_IBA_009 (Box3)
 
-6. 12A_UNT_003 (E01/A09) - combined with duplicate extract 
+6. 12A_UNT_002 (E01/A08) - combined with duplicate extract
 
-7. 12A_WIL_002 (E01/C08) - combined with duplicate extract
+7. 12A_UNT_003 (E01/A09) - combined with duplicate extract 
 
 8. 12A_WIL_002 (E01/C08) - combined with duplicate extract
 
-9. 12A_WIL_003 (E01/C09) - combined with duplicate extract
+9. 12A_WIL_002 (E01/C08) - combined with duplicate extract
 
-10. 12A_WIL_006 (E01/C12) - combined with duplicate extract
+10. 12A_WIL_003 (E01/C09) - combined with duplicate extract
+
+11. 12A_WIL_006 (E01/C12) - combined with duplicate extract
 
 
 
