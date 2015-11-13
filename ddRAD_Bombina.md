@@ -327,6 +327,10 @@ Samples from 2012 had much lower DNA yields than 2015 samples. DNA may have degr
 
 Libraries are prepared starting with 12ug of DNA. i.e. 500ng per sample. This equates to at least 5.7ng/ul of DNA made up to 88ul with UHQ. 
 
+The lowest amount of DNA is 400ng, so I will decrease the starting amount to 400ng x 24 = 9.6ug, i.e. I need 4.6ng/ul. 
+
+
+
 
 
 
