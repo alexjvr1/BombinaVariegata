@@ -355,6 +355,10 @@ I will need to concentrate the following samples:
 
 
 
+##Qubit of speedvac samples
+
+The concentrations of the speedvac samples are not much higher than before, and the volumes are now <50% of what they were before. A possible explanation is that the DNA is sticking to the sides of the tube, so I am not getting an accurate Qubit measurement. I will use all of the speedVac samples and make all the samples up to 88ul with UHQ. I will reassess after the cleanup & Qubit measurement of Restriction Digested samples. 
+
 
 
 
