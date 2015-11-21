@@ -360,6 +360,21 @@ I will need to concentrate the following samples:
 The concentrations of the speedvac samples are not much higher than before, and the volumes are now <50% of what they were before. A possible explanation is that the DNA is sticking to the sides of the tube, so I am not getting an accurate Qubit measurement. I will use all of the speedVac samples and make all the samples up to 88ul with UHQ. I will reassess after the cleanup & Qubit measurement of Restriction Digested samples. 
 
 
+21 Nov 2015. 
+
+I ran a restriction digest
+
+Cleanup with Qiagen MinElute columns. 
+
+Qubit HS measurement. 
+
+The SpeedVac concentrated samples have ~1.2-2ng/ul DNA, but the other samples have ~0.6ng/ul DNA. I realise that I didn't adjust the volume needed to 500ng/sample. I need to run another Restriction Digest for 14 samples. 
+
+4 samples need to be concentrated up with the speedvac: 
+
+
+
+
 
 
 
