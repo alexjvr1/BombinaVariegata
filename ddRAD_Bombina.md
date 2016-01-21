@@ -373,6 +373,45 @@ The SpeedVac concentrated samples have ~1.2-2ng/ul DNA, but the other samples ha
 4 samples need to be concentrated up with the speedvac: 
 
 
+#BV2: Test with 24 samples
+
+Received HiSeq data back from the FGCZ on 20 Jan 2016. 
+
+Demultiplexed samples using process_radtags from Stacks. 
+
+```
+146273859 total sequences;
+  47928413 ambiguous barcode drops;
+  0 low quality read drops;
+  0 ambiguous RAD-Tag drops;
+98345446 retained reads.
+```
+
+i.e. 32.8% ambiguous barcodes dropped. There was ~20% PhiX added, so ~13% of Bombina data dropped. This is comparable to the R. temporaria data. 
+
+
+Removal of adapter dimer using Trimmomatic
+
+```
+screen -S TrimSubset -L
+for i in *.fq; do  java -jar /usr/local/ngseq/src/Trimmomatic-0.33/trimmomatic-0.33.jar SE $i $i.trim ILLUMINACLIP:/usr/local/ngseq/src/Trimmomatic-0.33/adapters/TruSeq3-SE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36;done
+```
+
+QC: nr of reads per sample
+
+
+
+
+#pyRAD BV2: optimise clustering threshold
+
+I will test 90%-98% clustering threshold. I'm expecting an optimum around 93-94%
+
+1. Move demultiplexed and trimmed data to the gdc server. 
+
+2. Set up pyrad 
+
+3. run pyrad on both servers (i.e. 2 runs at a time). 
+
 
 
 
