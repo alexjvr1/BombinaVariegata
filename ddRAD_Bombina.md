@@ -413,7 +413,17 @@ I will test 90%-98% clustering threshold. I'm expecting an optimum around 93-94%
 3. run pyrad on both servers (i.e. 2 runs at a time). 
 
 
+###Analyses
 
+Compare clustering threshold to: 
+
+1. Het (from Pi_ file)
+
+2. Polyfreq (s5_)
+ 
+3. number of loci
+
+4. nr loci filtered as paralogues (s5_)
 
 
 
