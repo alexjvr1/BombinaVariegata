@@ -426,4 +426,15 @@ Compare clustering threshold to:
 4. nr loci filtered as paralogues (s5_)
 
 
+##Data from training run
+
+FGCZ tested their new illumina machine, and used the BV2 library for the test run. We got data back for Fwd & Rev reads. I will use only the Fwd reads to see what the data looks like, and perhaps add the data to the original BV2 run. 
+
+
+Demultiplex the data
+
+```
+/srv/kenlab/alexjvr_p1795/Bombina/BV2.2$ /usr/local/ngseq/stow/stacks-1.28/bin/process_radtags -i gzfastq -f /srv/gstore4users/p1795/HiSeq_20160121_trainingRun1_DataDelivery/20160121.B-BV2_R1.fastq.gz -o demultiplexed_BV2.2/ -y fastq -b barcodes_BV2 --disable_rad_check -r -D
+```
+
 
