@@ -430,6 +430,9 @@ data in pyRADopt_20160217.xlsx
 [Het]:https://cloud.githubusercontent.com/assets/12142475/13322638/a680f9d2-dbd5-11e5-9bbc-495b19abcfa4.png
 
 
+Based on the frequency of polymorphisms (polyfreq), and the number of loci (nloci), I decided on an optimum clustering threshold of 93%. Althought the results based on Het and paralogs are less clear, the other two graphs show that over-splitting seems to happen from ~94-95% clustering threshold. 
+
+As an interesting aside, it seems like the frequency of polymorphisms is only ~30% that of Rana temporaria (0.001 vs 0.003). 
 
 
 
