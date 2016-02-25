@@ -418,7 +418,7 @@ I will test 90%-98% clustering threshold. I'm expecting an optimum around 93-94%
 data in pyRADopt_20160217.xlsx
 
 ![alt_txt][paralog]
-[paralog]:https://cloud.githubusercontent.com/assets/12142475/13322438/ad27b5a6-dbd4-11e5-9b7d-f1b3739659da.png
+[paralog]:https://cloud.githubusercontent.com/assets/12142475/13322436/ad257048-dbd4-11e5-8b9a-a1150dc4d656.png
 
 ![alt_txt][polyfreq]
 [polyfreq]:https://cloud.githubusercontent.com/assets/12142475/13322438/ad27b5a6-dbd4-11e5-9b7d-f1b3739659da.png
@@ -427,7 +427,7 @@ data in pyRADopt_20160217.xlsx
 [nloci]:https://cloud.githubusercontent.com/assets/12142475/13322439/ad29c954-dbd4-11e5-979e-1c677c668d43.png
 
 ![alt_txt][Het]
-[Het]:https://cloud.githubusercontent.com/assets/12142475/13322437/ad279756-dbd4-11e5-9785-14639a905797.png
+[Het]:https://cloud.githubusercontent.com/assets/12142475/13322638/a680f9d2-dbd5-11e5-9bbc-495b19abcfa4.png
 
 
 
