@@ -40,7 +40,8 @@ I will set up the barcode file and demultiplex on FGCZ server as before.
 
 Barcodes: 
 
-
+![alt_txt][barcodes]
+[barcodes]:https://cloud.githubusercontent.com/assets/12142475/14468112/28af11aa-0093-11e6-8b45-d2286752321a.png
 
 
 
