@@ -1,0 +1,13 @@
+#Analysis of BV3
+
+BV3 data has just arrived (12 April 2016) - i.e. 8 days after submission. 
+
+1. FastQC
+2. Demultiplex 
+3. pyRAD for entire dataset (with or without concat data??)
+
+
+
+##1. FastQC
+
+
