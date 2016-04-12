@@ -10,6 +10,9 @@ BV3 data has just arrived (12 April 2016) - i.e. 8 days after submission.
 
 ##1. FastQC
 
+The data quality looks good, but we only got 160Mil reads! The HiSeq 2500 can sequence 250Mil reads, so this is well below what we would expect. I will contact Cathy and ask her about it. 
+
+
 ![alt_txt][stats]
 [stats]:https://cloud.githubusercontent.com/assets/12142475/14467673/3ede09c4-0091-11e6-8009-89601dc69b48.png
 
@@ -28,6 +31,9 @@ BV3 data has just arrived (12 April 2016) - i.e. 8 days after submission.
 
 ![alt_txt][Fig6]
 [Fig6]:https://cloud.githubusercontent.com/assets/12142475/14467676/3ee01ffc-0091-11e6-92c7-f2a0c6bf4deb.png
+
+
+
 
 
 
