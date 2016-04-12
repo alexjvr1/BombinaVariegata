@@ -88,6 +88,9 @@ make the file on the GDCsrv side, and use checksum to cross-reference
 md5sum -c BV3.trim.txt
 ```
 
+***If you've used a path (eg as above) make sure the text file is in the right place so that md5sum can look for the path and the file. 
+
+
 
 
 
