@@ -49,8 +49,22 @@ Demultiplex:
 Started 12 April 9:51
 '''
 /usr/local/ngseq/stow/stacks-1.28/bin/process_radtags -i gzfastq -f /srv/gstore4users/p1795/HiSeq2500_20160405_RUN263_o2409_DataDelivery/20160405.A-BV3_R1.fastq.gz  -o ./demultiplexed -y fastq -b barcodes_BV3 --disable_rad_check -r -D
+
+
+166256011 total sequences;
+  28165822 ambiguous barcode drops;
+  0 low quality read drops;
+  0 ambiguous RAD-Tag drops;
+138090189 retained reads.
 '''
 
+
+And trim data: 
+
+'''
+screen -S TrimSubset -L
+for i in *.fq; do  java -jar /usr/local/ngseq/src/Trimmomatic-0.33/trimmomatic-0.33.jar SE $i $i.trim ILLUMINACLIP:/usr/local/ngseq/src/Trimmomatic-0.33/adapters/TruSeq3-SE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36;done
+'''
 
 
 
