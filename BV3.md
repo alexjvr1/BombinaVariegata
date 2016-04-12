@@ -44,6 +44,15 @@ Barcodes:
 [barcodes]:https://cloud.githubusercontent.com/assets/12142475/14468112/28af11aa-0093-11e6-8b45-d2286752321a.png
 
 
+Demultiplex: 
+
+Started 12 April 9:51
+'''
+/usr/local/ngseq/stow/stacks-1.28/bin/process_radtags -i gzfastq -f /srv/gstore4users/p1795/HiSeq2500_20160405_RUN263_o2409_DataDelivery/20160405.A-BV3_R1.fastq.gz  -o ./demultiplexed -y fastq -b barcodes_BV3 --disable_rad_check -r -D
+'''
+
+
+
 
 
 
