@@ -34,6 +34,13 @@ The data quality looks good, but we only got 160Mil reads! The HiSeq 2500 can se
 
 
 
+##2. Demultiplex the data
+
+I will set up the barcode file and demultiplex on FGCZ server as before. 
+
+Barcodes: 
+
+
 
 
 
