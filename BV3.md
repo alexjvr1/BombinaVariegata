@@ -76,9 +76,17 @@ From the GDC side
 rsync -av -e "ssh -l alexjvr" /srv/kenlab/alexjvr_p1795/Bombina/BV3/demultiplexed/* gdcsrv1.ethz.ch:/gdc_home4/alexjvr/Bombina/BV3/demultiplexed.BV3/
 ```
 
+Use checksum to ensure all documents have been copied accurately: 
 
+```
+on FGCZ side, get a list of all the md5 codes:
 
+md5sum demultiplexed/* > BV3.trim.txt
 
+make the file on the GDCsrv side, and use checksum to cross-reference
+
+md5sum -c BV3.trim.txt
+```
 
 
 
