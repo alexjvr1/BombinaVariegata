@@ -3,6 +3,7 @@
 
 Filter step 1
 
+```
 --vcf BV2N4Clust93.vcf --maf 0.25 --recode --recode-INFO-all --out 1.BV
 
 Eighth Header entry should be INFO: INFO    
@@ -109,7 +110,12 @@ EOF
 
 
 
+```
 
+
+Convert to plink
+
+```
 vcftools --vcf 3.BV.recode.vcf --out BV2.plink --plink 
 
 VCFtools - v0.1.12b
@@ -127,15 +133,20 @@ Done.
 After filtering, kept 1476 out of a possible 1476 Sites
 Run Time = 0.00 seconds
 
+```
 
 #correct the plink file
 
+```
 plink --file BV3.75.plink --recodeA
+```
 
 
 ##29 Feb
 
 Trying with 75% missing data
+
+```
 vcftools --vcf 2.BV.recode.vcf --max-missing 0.75 --maf 0.05 --recode --recode-INFO-all --out 3.BV
 
 VCFtools - v0.1.12b
@@ -153,21 +164,21 @@ After filtering, kept 24 out of 24 Individuals
 Outputting VCF file...
 After filtering, kept 2683 out of a possible 242490 Sites
 Run Time = 4.00 seconds
-
+```
 
 And convert to plink...
-
+```
 plink --file BV3.75.plink --recodeA
-
+```
 #copy everything to the BV2 folder /BV2/75
-
+```
 scp -r alexjvr@gdcsrv1.ethz.ch:/gdc_home4/alexjvr/Bombina/BV2/pyrad93/outfiles.1/BV.93Filter/BV3.75* .
-
+```
 #and the plink.raw file
 
 
 ##IN R
-
+```
 library("ade4")
 library("adegenet")
 library("pegas")
@@ -189,9 +200,10 @@ BV.75
 
 pop(BV.75) <- (indiv.names.factors) #assign population names from a text file
 pop(BV.75)  ##and check that they are correct
-
+```
 
 ##Pop structure
+```
 pca1 <- glPca(BV.75) ##This displays a barplot of the eigenvalues and asks the user for a number of retained principal components
 
 20
@@ -205,7 +217,7 @@ abline(h=0,v=0,col="grey")
 myCol <- colorplot(pca1$scores,pca1$scores,transp=T,cex=4)
 abline(h=0,v=0,col="grey")
 add.scatter.eig(pca1$eig[1:40],2,1,2, posi="topright", inset=.05, ratio=.3)
-
+```
 
  
 
@@ -222,6 +234,7 @@ Individuals with missing data:
 ##This is a good tutorial for dapc & pca
 http://grunwaldlab.github.io/Population_Genetics_in_R/DAPC.html
 
+```
 BV2.75.genind
 
 pop.names <- read.table("BV2.75.pop.csv", header=T, quote="\"") #read in the indiv names file
@@ -237,28 +250,29 @@ dapc.BV2.75 <- dapc(BV2.75.genind, var.contrib = TRUE, scale = FALSE, n.pca = NU
 scatter(dapc.BV2.75, cell = 0, pch = 18:23, cstar = 0, mstree = TRUE, lwd = 2, lty = 2)
 
 With n.pca = 8:
- 
+``` 
 
 
 ##It's important to choose npca and ndapc carefully (i.e. using BIC). nPCA greatly affects the outcome of the test!
 
 ##Now we can check whether any specific loci contribute the most to the differentiation: 
 
+```
 set.seed(4)
 contrib <- loadingplot(dapc.BV2.75$var.contr, axis = 2, thres = 0.07, lab.jitter = 1)
-
+```
  
 
 
 ##And now check the DAPC
 
-
+```
 
 BV2.75.genind2 <- na.replace(BV2.75.genind, "mean")
 
 set.seed(999)
 xval1 <- xvalDapc(BV2.75.genind2$tab, pop.names.factors, n.pca.max = 300, n.da = NULL, training.set = 0.9, result = c("groupMean", "overall"),center=TRUE, scale = F, n.pca = NULL, n.rep = 30, xval.plot = T)
-
+```
  
 This is not very convincing at all! So is there not enough differentiation? 8 PC's looks like the best option, but there's still a large CI.. 
 
