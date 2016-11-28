@@ -85,18 +85,22 @@ vcftools --vcf BV234.s1.names.vcf --missing-indv
 library(ggplot2)
 BV234.72.s1 <- read.table("out.imiss", header=T)
 pop <- read.table("72.popnames", header=T)
-BV234.72.s1$pop <- pop$pop
-BV234.72.s1$pop.order <- pop$order
 
-BV234.72.s1.sort <- BV234.72.s1[order(BV234.72.s1$pop.order),]
+BV.s1.df <- as.data.frame(BV234.72.s1)
+BV.s1.df.sort <- BV.s1.df[order(BV.s1.df$INDV),]
 
-BV234.72.s1.sort$pop <- factor(BV234.72.s1.sort$pop, levels=BV234.72.s1.sort$pop)   ##sort pop.nr. Numbers from south to North
+pop.sort <- pop[order(pop$indiv),]
+BV.s1.df.sort$pop <- pop.sort$pop
+BV.s1.df.sort$order <- pop.sort$order
+head(BV.s1.df.sort)
 
-qplot(pop, F_MISS, data=BV234.72.s1.sort, geom=c("boxplot", "jitter"))
+BV.s1.df.sort <- BV.s1.df.sort[order(BV.s1.df.sort$order),]
+BV.s1.df.sort$pop <- factor(BV.s1.df.sort$pop, levels=BV.s1.df.sort$pop)
+qplot(pop, F_MISS, data=BV.s1.df.sort, geom=c("boxplot", "jitter"))
 ```
 
 ![alt_txt][missing.s1]
-[missing.s1]:https://cloud.githubusercontent.com/assets/12142475/20667013/715f51e2-b567-11e6-9383-d57efe9f75c3.png
+[missing.s1]:https://cloud.githubusercontent.com/assets/12142475/20677691/3dd31034-b594-11e6-83c3-365a89582a14.png
 
 
 SFS and LD (r2) for the full dataset:
@@ -593,17 +597,224 @@ hist(BV.fix.region.table.keep$Freq, xlab="Number of pops", ylab="Frequency", mai
 
 ##Fst
 
+Convert plink s5 to structure using pgdspider, and import into R
+
+```
+/Users/alexjvr/2016RADAnalysis/Bombina/BV234/Analyses_20161128/SumStats/BV.71.1665.str
+
+library(adegenet)
+library(hierfstat)
+library(reshape)
+
+BV.71 <- read.structure("BV.71.1665.str")
+BV.71
+
+pop.BV.71 <- read.table("pops4pgdspider", header=F)  ##make sure the populations are numbered "01.DE.B", etc.
+BV.10pops.factor <- as.factor(pop.BV.71$V2)
+BV.71@pop <- BV.10pops.factor
+
+hier.BV <- genind2hierfstat(BV.71)
+
+BV.fst <- pairwise.fst(BV.71, pop=NULL, res.type=c("dist", "matrix"))
+
+m <- as.matrix(BV.fst)
+m2 <- melt(m)[melt(upper.tri(m))$value,]
+names(m2)<- c("c1","c2", "distance")
+
+library(gplots)
+
+shadesOfGrey <- colorRampPalette(c("grey100", "grey0"))  ##define the colourpalette. 
+
+Dend <- read.table("heatmap.popcolours", header=T)  ##list of colour names for each population based on R colour palatte. In alphabetical order (as in genind file)
+Dend.Colours <- as.character(Dend$colours.pop)
+
+par(oma=c(1,1,2,1))
+heatmap.2(as.matrix(BV.fst), trace="none", RowSideColors=Dend.Colours, ColSideColors=Dend.Colours, col=shadesOfGrey, labRow=F, labCol=F, key.ylab=NA, key.xlab=NA, key.title="Fst Colour Key", keysize=0.9, main="Pairwise Fst and dendrograms of BV: 10pops, 3regions, 1665loci")  ##RowSideColors is for the dendrogram on the row, ColSideColors for the upper dendrogram. Colour order should be the same as the input. The pop order is alphabetical in the output. 
+par(fig = c(0, 1, 0, 1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = TRUE)
+plot(0, 0, type = "n", bty = "n", xaxt = "n", yaxt = "n")
+
+popnames.all <- as.character(c("BRU", "ZIN", "Middle", "East"))
+legend("bottom", popnames.all, xpd = TRUE, horiz = TRUE, inset = c(0, 0), bty="o", pch=15, col=c("darkorange3", "darkorange2", "darkorchid1", "deepskyblue1"), title="Regions")
+
+```
+![alt_txt][Fst.all]
+[Fst.all]:https://cloud.githubusercontent.com/assets/12142475/20679243/5c7c4bc6-b59a-11e6-93fa-3e54711291e9.png
+
 
 ##IBD
+
+Fst/(1-Fst) vs log.dist(km) - according to Rousset et al. 1997, this is correlated with the effective population density (De) and effective dispersal distance (variance)
+
+```
+##Fst 15 pops -> Fst/(1-Fst)
+
+library(reshape)
+library(fields)
+
+
+m <- as.matrix(SEall.fst)
+m
+m2 <- melt(m)[melt(upper.tri(m))$value,]
+names(m2) <- c("c1", "c2", "distance")
+m2
+m2$IBD <- m2$distance/(1-m2$distance)
+
+
+BV.pop.coords <- read.table("BV.pop.coords", header=T)
+BVpop_lon.lat <- cbind(BV.pop.coords$Long, BV.pop.coords$Lat)
+distance.matrix.BVpop <- rdist.earth(BVpop_lon.lat, miles=F)  ##great circle dist based on the coordinates
+m.dist <- as.matrix(distance.matrix.BVpop)
+summary(m.dist)
+
+m2.dist <- melt(m.dist)[melt(upper.tri(m.dist))$value,]
+names(m2.dist) <- c("c1", "c2", "distance")
+m2.dist$m <- (m2.dist$distance*1000)
+summary(m2.dist)
+m2.dist$log.m <- log(m2.dist$m)
+
+
+library(MASS)
+#dens <- kde2d(m2$IBD,m2.dist$log.m, n=10)
+#myPal <- colorRampPalette(c("white","blue","gold", "orange", "red"))
+plot(m2$IBD~m2.dist$log.m, pch=20,cex=.5, xlab="log Geographic distance (m)", ylab="Fst/(1-Fst)")
+#image(dens, col=transp(myPal(10),.7), add=TRUE)
+abline(fit <- lm(m2$IBD~m2.dist$log.m))
+legend("bottomright", bty="n", legend=paste("R2 =", format(summary(fit)$adj.r.squared, digits=4)))  ##and paste R2
+title("Isolation by distance plot - BVall")
+```
+
+And within Middle and East: 
+
+```
+##Middle
+
+m2.middle <- subset(m2, c1>2)
+m2.middle <- subset(m2.middle, c1<7)
+m2.middle <- subset(m2.middle, c2<7)
+m2.middle <- subset(m2.middle, c2>2)
+
+m2.dist.middle <- subset(m2.dist, c2<7)
+m2.dist.middle <- subset(m2.dist.middle, c2<7)
+m2.dist.middle <- subset(m2.dist.middle, c2>2)
+m2.dist.middle <- subset(m2.dist.middle, c1>2)
+
+library(MASS)
+plot(m2.middle$IBD~m2.dist.middle$log.m, pch=20,cex=.5, xlab="log Geographic distance (m)", ylab="Fst/(1-Fst)")
+abline(fit <- lm(m2.middle$IBD~m2.dist.middle$log.m))
+legend("bottomright", bty="n", legend=paste("R2 =", format(summary(fit)$adj.r.squared, digits=4)))  ##and paste R2
+title("Isolation by distance plot - BVmiddle")
+
+
+##EAST
+m2.east <- subset(m2, c1>6)
+m2.east <- subset(m2.east, c2>6)
+
+m2.dist.east <- subset(m2.dist, c2>6)
+m2.dist.east <- subset(m2.dist.east, c1>6)
+
+plot(m2.east$IBD~m2.dist.east$log.m, pch=20,cex=.5, xlab="log Geographic distance (m)", ylab="Fst/(1-Fst)")
+abline(fit <- lm(m2.east$IBD~m2.dist.east$log.m))
+legend("bottomright", bty="n", legend=paste("R2 =", format(summary(fit)$adj.r.squared, digits=4)))  ##and paste R2
+title("Isolation by distance plot - BVeast")
+
+
+##all 3 plots
+par(mfrow=c(2,2))
+plot(m2.middle$IBD~m2.dist.middle$log.m, pch=20,cex=.5, xlab="log Geographic distance (m)", ylab="Fst/(1-Fst)")
+abline(fit <- lm(m2.middle$IBD~m2.dist.middle$log.m))
+legend("bottomright", bty="n", legend=paste("R2 =", format(summary(fit)$adj.r.squared, digits=4)))  ##and paste R2
+title("Isolation by distance plot - BVmiddle")
+
+plot(m2.east$IBD~m2.dist.east$log.m, pch=20,cex=.5, xlab="log Geographic distance (m)", ylab="Fst/(1-Fst)")
+abline(fit <- lm(m2.east$IBD~m2.dist.east$log.m))
+legend("bottomright", bty="n", legend=paste("R2 =", format(summary(fit)$adj.r.squared, digits=4)))  ##and paste R2
+title("Isolation by distance plot - BVeast")
+
+
+plot(m2$IBD~m2.dist$log.m, pch=20,cex=.5, xlab="log Geographic distance (m)", ylab="Fst/(1-Fst)")
+#image(dens, col=transp(myPal(10),.7), add=TRUE)
+abline(fit <- lm(m2$IBD~m2.dist$log.m))
+legend("bottomright", bty="n", legend=paste("R2 =", format(summary(fit)$adj.r.squared, digits=4)))  ##and paste R2
+title("Isolation by distance plot - BVall")
+```
+
+![alt_txt][IBD.BV]
+[IBD.BV]:https://cloud.githubusercontent.com/assets/12142475/20680390/2949b004-b59f-11e6-9d88-8b810c5494af.png
+
+
 
 
 ##AMOVA
 
 
+
 ##DAPC
 
 
+
 ##PCA
+
+PCAdapt in R:
+```
+##convert .vcf to plink 
+##linux
+
+vcftools --vcf BV.71.1665.FINAL.vcf --plink --out BV.71.plink
+
+plink --file BV.71.plink --recode --recodeA
+
+##R
+library(pcadapt)
+
+BV.71 <- read.pcadapt("BV.71.plink.ped", type="ped")
+Summary:
+
+        - input file      BV.71.plink.ped
+        - output file     BV.71.plink.pcadapt
+
+	- number of individuals detected:	71
+	- number of loci detected:		1665
+
+File has been sucessfully converted.
+
+
+##Check the nr of PCs
+
+x <- pcadapt(BV.71, K=20)
+
+Reading file BV.71.plink.pcadapt...
+Number of SNPs: 1665
+Number of individuals: 71
+Number of SNPs with minor allele frequency lower than 0.05 ignored: 1
+14320 out of 118215 missing data ignored.
+
+plot(x, option="screeplot")  ##PC for pop structure = on the steep curve
+```
+![alt_txt][screeplot]
+[screeplot]:https://cloud.githubusercontent.com/assets/12142475/20680600/078e327c-b5a0-11e6-90f8-06da3ee281c9.png
+
+
+
+Plot the PCA using population information
+```
+popnames <- read.table("popnames", header=T)
+head(popnames)
+                  indiv     pop region
+1 NAG.09_12A_NAG.09_12A 3.2.NAG Middle
+2 WIL.15_12A_WIL.15_12A 3.3.WIL Middle
+3 WIL.19_12A_WIL.19_12A 3.3.WIL Middle
+4 BRU.08_12B_BRU.08_12B   1.BRU    BRU
+5 NAG.01_12B_NAG.01_12B 3.2.NAG Middle
+6 CHR.01_15A_CHR.01_15A 4.1.CHR   EAST
+
+poplist <- popnames[,2]
+
+plot(x,option="scores",pop=poplist)
+
+poplist <- as.character(popnames[,3]) ##select regions
+plot(x,option="scores",pop=poplist)
+```
+
 
 
 
