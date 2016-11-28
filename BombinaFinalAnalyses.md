@@ -749,6 +749,38 @@ title("Isolation by distance plot - BVall")
 
 
 ##DAPC
+tutorial-dapc: A tutorial for Discriminant Analysis of Principal Components (DAPC) using adegenet 2.0.0
+
+total variance = (variance between groups) + (variance within groups)
+
+or more simply, denoting X the data matrix:
+
+VAR(X) = B(X) +W(X)
+
+Usual approaches such as Principal Component Analysis (PCA) or Principal Coordinates Analysis (PCoA / MDS) focus on V AR(X). That is, they only describe the global diversity, possibly overlooking differences between groups. On the contrary, DAPC optimizes B(X) while minimizing W(X): it seeks synthetic variables, the discriminant functions, which show differences between groups as best as possible while minimizing variation within clusters.
+
+##1. estimate the number of clusters
+
+Using k-means. Which finds the number of clusters with minimises W(X) and maximises B(X). Compare using BIC
+
+Run algorithm on PCA transformed data. I.e. reduce the dataset so that it can run faster. 
+
+```
+grp.BVall <- find.clusters(BV.71, max.n.clust=40)
+
+> choose nr of PCs: 200  ##I try to keep all the PCs
+
+> choose k: 5 ##see figure below
+
+
+names.15 <- c("DE.B", "DE.K", "DE.W", "Sk.SF", "SK.SL", "Upp.Gra", "Upp.K", "Upp.O", "Um.Gr", "Um.Taf", "LT1", "LT3", "Kir.G", "Kir.L", "FIN")
+names.15 <- as.character(names.15)
+table.value(table(pop(BV.71), grp.BVall$grp), col.lab=paste("inf", 1:6), row.lab=1:10)
+
+dapc1.BVall <- dapc(BV.71, grp.BVall$grp)
+scatter(dapc1.BVall)
+```
+
 
 
 
