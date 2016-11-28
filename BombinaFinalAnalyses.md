@@ -127,7 +127,7 @@ hist(BV.s1.r2$R2, main="BV s1 (max.miss0.8; 14046; 72) R2")
 [LD.s1]:https://cloud.githubusercontent.com/assets/12142475/20667122/027f4042-b568-11e6-9969-0450396789d7.png
 
 
-###Step2: HWE
+###Step2: identify loci out of HWE
 
 Subset the plink file to all the populations. the --keep file should have two columns, duplicated in this case (FamID, IndID)
 
@@ -249,11 +249,234 @@ HWE.loci.remove.names <- subset(test.table, Freq>4)
 write.table(HWE.loci.remove.names$Var1, quote=F, col.names=F, file="HWE.loci.remove.names", row.names=F)
 ```
 
-And remove the 425 loci using plink
+And remove the 413 loci using plink
 ```
-plink --file SEsubset.Nov.plink --exclude HWE.loci.remove.names --recode --recodeA --out SEsubset.Nov.s3
+plink --file BV.s1.plink --exclude HWE.loci.remove.names --recode --recodeA --out BV.s2
 ```
 
 
+###Step3: identify loci with high LD
+
+On the same s1 plink file, calculate the per population LD & SFS
+
+```
+for i in $(ls plink.pops/); do plink --file subset.data/$i.plink --r2 --out subset.data/$i; done
+for i in $(ls plink.pops/); do plink --file subset.data/$i.plink --freq --out subset.data/$i; done
+```
+R
+
+```
+BRU.freq <- read.table("subset.data/1.BRU.frq", header=T)
+ZIN.freq <- read.table("subset.data/2.ZIN.frq", header=T)
+ZIV.freq <- read.table("subset.data/3.1.ZIV.frq", header=T)
+NAG.freq <- read.table("subset.data/3.2.NAG.frq", header=T)
+WIL.freq <- read.table("subset.data/3.3.WIL.frq", header=T)
+HOP.freq <- read.table("subset.data/3.4.HOP.frq", header=T)
+CHR.freq <- read.table("subset.data/4.1.CHR.frq", header=T)
+IBA.freq <- read.table("subset.data/4.2.IBA.frq", header=T)
+HOC.freq <- read.table("subset.data/4.3.HOC.frq", header=T)
+UNT.freq <- read.table("subset.data/4.4.UNT.frq", header=T)
+
+par(mfrow=c(4,3))
+my.bin.width <- 0.05
+hist(BRU.freq$MAF, main="BRU s1 (max.miss0.8; 13886; 7) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(ZIN.freq$MAF, main="ZIN s1 (max.miss0.8; 13886; 8) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(ZIV.freq$MAF, main="ZIV s1 (max.miss0.8; 13886; 7) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(NAG.freq$MAF, main="NAG s1 (max.miss0.8; 13886; 6) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(WIL.freq$MAF, main="WIL s1 (max.miss0.8; 13886; 6) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(HOP.freq$MAF, main="HOP s1 (max.miss0.8; 13886; 6) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(CHR.freq$MAF, main="CHR s1 (max.miss0.8; 13886; 8) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(IBA.freq$MAF, main="IBA s1 (max.miss0.8; 13886; 8) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(HOC.freq$MAF, main="HOC s1 (max.miss0.8; 13886; 10) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(UNT.freq$MAF, main="UNT s1 (max.miss0.8; 13886; 6) SFS", breaks=seq(0,0.5, by=my.bin.width))
 
 
+BRU.ld <- read.table("subset.data/1.BRU.ld", header=T)
+ZIN.ld <- read.table("subset.data/2.ZIN.ld", header=T)
+ZIV.ld <- read.table("subset.data/3.1.ZIV.ld", header=T)
+NAG.ld <- read.table("subset.data/3.2.NAG.ld", header=T)
+WIL.ld <- read.table("subset.data/3.3.WIL.ld", header=T)
+HOP.ld <- read.table("subset.data/3.4.HOP.ld", header=T)
+CHR.ld <- read.table("subset.data/4.1.CHR.ld", header=T)
+IBA.ld <- read.table("subset.data/4.2.IBA.ld", header=T)
+HOC.ld <- read.table("subset.data/4.3.HOC.ld", header=T)
+UNT.ld <- read.table("subset.data/4.4.UNT.ld", header=T)
+
+par(mfrow=c(4,3))
+my.bin.width <- 0.05
+hist(BRU.ld$R2, main="BRU s1 (max.miss0.8; 13886; 7) LD", breaks=seq(0,1, by=my.bin.width))
+hist(ZIN.ld$R2, main="ZIN s1 (max.miss0.8; 13886; 8) LD", breaks=seq(0,1, by=my.bin.width))
+hist(ZIV.ld$R2, main="ZIV s1 (max.miss0.8; 13886; 7) LD", breaks=seq(0,1, by=my.bin.width))
+hist(NAG.ld$R2, main="NAG s1 (max.miss0.8; 13886; 6) LD", breaks=seq(0,1, by=my.bin.width))
+hist(WIL.ld$R2, main="WIL s1 (max.miss0.8; 13886; 6) LD", breaks=seq(0,1, by=my.bin.width))
+hist(HOP.ld$R2, main="HOP s1 (max.miss0.8; 13886; 6) LD", breaks=seq(0,1, by=my.bin.width))
+hist(CHR.ld$R2, main="CHR s1 (max.miss0.8; 13886; 8) LD", breaks=seq(0,1, by=my.bin.width))
+hist(IBA.ld$R2, main="IBA s1 (max.miss0.8; 13886; 8) LD", breaks=seq(0,1, by=my.bin.width))
+hist(HOC.ld$R2, main="HOC s1 (max.miss0.8; 13886; 10) LD", breaks=seq(0,1, by=my.bin.width))
+hist(UNT.ld$R2, main="UNT s1 (max.miss0.8; 13886; 6) LD", breaks=seq(0,1, by=my.bin.width))
+
+
+##Check frequency of loci iwth R2>0.8
+
+##Keep only loci R2>0.8 and plot frequency in R
+BRU.ld.remove <- subset(BRU.ld, R2>0.799999)
+ZIN.ld.remove <- subset(ZIN.ld, R2>0.799999)
+ZIV.ld.remove <- subset(ZIV.ld, R2>0.799999)
+NAG.ld.remove <- subset(NAG.ld, R2>0.799999)
+WIL.ld.remove <- subset(WIL.ld, R2>0.799999)
+HOP.ld.remove <- subset(HOP.ld, R2>0.799999)
+CHR.ld.remove <- subset(CHR.ld, R2>0.799999)
+IBA.ld.remove <- subset(IBA.ld, R2>0.799999)
+HOC.ld.remove <- subset(HOC.ld, R2>0.799999)
+UNT.ld.remove <- subset(UNT.ld, R2>0.799999)
+
+BV.ld.remove.file <- do.call(rbind, lapply(ls(pattern="ld.remove$"), get))
+test.table.ld <- data.frame(table(BV.ld.remove.file$SNP_A, BV.ld.remove.file$SNP_B))
+test.table.ld.subset <- subset(test.table.ld, Freq>0)
+test.table.ld.1.subset <- subset(test.table.ld, Freq>1)
+
+LD.loci.remove.names <- subset(test.table.ld, Freq>4)
+write.table(LD.loci.remove.names$Var1, quote=F, col.names=F, file="LD.loci.remove.names", row.names=F)
+
+par(mfrow=c(1,2))
+hist(test.table.ld.subset$Freq, main="Frequency of loci R2>0.8 across 10 pops")
+hist(test.table.ld.1.subset$Freq, main="Frequency of loci R2>0.8 across 10 pops")
+```
+
+SFS
+
+![alt_txt][SFS.s1]
+[SFS.s1]:https://cloud.githubusercontent.com/assets/12142475/20670053/6f9fd0a6-b577-11e6-882f-3eeee155f17c.png
+
+
+LD
+
+![alt_txt][LD.s1]
+[LD.s1]:https://cloud.githubusercontent.com/assets/12142475/20670052/6f9f9f64-b577-11e6-9734-6070d03753e2.png
+
+
+Freq of loci with R2>0.8
+![alt_txt][LD.freq.s1]
+[LD.freq.s1]:https://cloud.githubusercontent.com/assets/12142475/20670267/7cfeb72a-b578-11e6-8f0c-6b17e014c727.png
+
+
+##Step 4: thin
+
+Remove multiple SNPs per locus. 
+
+
+```
+vcftools --vcf BV234.s1.names.vcf --thin 200 --recode --recode-INFO-all --out BV.s4
+
+VCFtools - v0.1.14
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf BV234.s1.names.vcf
+	--recode-INFO-all
+	--thin 200
+	--out BV.s4
+	--recode
+
+After filtering, kept 72 out of 72 Individuals
+Outputting VCF file...
+After filtering, kept 8740 out of a possible 14046 Sites
+Run Time = 1.00 seconds
+
+```
+
+###Step5: MAF 0.05
+
+low MAF can bias pop structure and Fst outlier analyses. I will filter for a minimum MAF of 0.05 across the entire dataset. This is a minimum minor allele count of 4 in 72 individuals. i.e. this is also a filter for any spurious SNP calls that may have been kept through the filtering process thus far. 
+```
+vcftools --vcf BV.s4.recode.vcf --maf 0.05 --recode --recode-INFO-all --out BV.s5.maf0.05
+
+VCFtools - v0.1.14
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf BV.s4.recode.vcf
+	--recode-INFO-all
+	--maf 0.05
+	--out BV.s5.maf0.05
+	--recode
+
+After filtering, kept 72 out of 72 Individuals
+Outputting VCF file...
+After filtering, kept 1931 out of a possible 8740 Sites
+Run Time = 0.00 seconds
+
+```
+
+
+##Final Checks
+Convert to plink and check that all s2 & s3 loci have been removed
+```
+vcftools --vcf BV.s5.maf0.05.recode.vcf --plink --out BV.s5.plink
+
+plink --file BV.s5.plink --exclude HWE.loci.remove.names --recode --recodeA --out BV.s5.hwe.ld
+plink --file BV.s5.hwe --exclude LD.loci.remove.names --recode --recodeA --out BV.s5.hwe.ld
+```
+
+266 loci removed for deviation from HWE, 0 for LD
+
+Final dataset: 
+
+72 individuals
+
+10 populations
+
+86.9% genotyping rate
+
+1665 loci
+
+
+Missingness per population
+```
+
+```
+
+SFS & LD per population
+```
+
+```
+
+Overall SFS and LD
+```
+
+```
+
+
+#Summary statistics
+
+Nr fixed loci per population
+
+
+
+#Population Structure
+
+##Fst
+
+
+##IBD
+
+
+##AMOVA
+
+
+##DAPC
+
+
+##PCA
+
+
+
+##hierarchical fastStructure
+
+K1-10
+
+
+
+##TESS3
+
+K1-10
