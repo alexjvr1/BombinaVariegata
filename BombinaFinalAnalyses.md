@@ -431,25 +431,161 @@ Final dataset:
 1665 loci
 
 
+Convert .ped to .vcf using pgdspider (sequences)
+
 Missingness per population
 ```
+vcftools --vcf BV.s5.vcf --missing-indv --out BV.s5
 
+#R
+library(ggplot2)
+BV.s5 <- read.table("BV.s5.imiss", header=T)
+BV.s5.sort <- BV.s5[order(BV.s5$INDV),]
+pop <- read.table("72.popnames.alphabetical", header=T)
+BV.s5.sort$pop <- pop$pop
+BV.s5.sort$pop.order <- pop$order
+
+BV.s5.sort2 <- BV.s5.sort[order(BV.s5.sort$pop.order),]
+
+BV.s5.sort2$pop <- factor(BV.s5.sort2$pop, levels=BV.s5.sort2$pop)   ##sort pop.nr. Numbers from south to North
+
+qplot(pop, F_MISS, data=BV.s5.sort2, geom=c("boxplot", "jitter"))
 ```
+
+And remove individuals with >45% missing data
+
+Only IBA.05 needs to be removed. 
+```
+vcftools --vcf BV.s5.vcf --remove lowDP.indiv --recode --recode-INFO-all --out BV.72.1665
+```
+
+![alt.txt][final.missing]
+[final.missing]:https://cloud.githubusercontent.com/assets/12142475/20675736/99feff00-b58d-11e6-87e4-b2ecfb6cf0bf.png
+
 
 SFS & LD per population
 ```
+for i in $(ls plink.pops/); do plink --file BV.s5.hwe.ld --keep plink.pops/$i --recode --recodeA --out final.subsets/$i.1665; done
 
-```
+for i in $(ls plink.pops/); do plink --file final.subsets/$i.1665 --freq --out final.subsets/$i; done
+for i in $(ls plink.pops/); do plink --file final.subsets/$i.1665 --r2 --out final.subsets/$i; done
 
-Overall SFS and LD
-```
+BRU.freq <- read.table("final.subsets/1.BRU.frq", header=T)
+ZIN.freq <- read.table("final.subsets/2.ZIN.frq", header=T)
+ZIV.freq <- read.table("final.subsets/3.1.ZIV.frq", header=T)
+NAG.freq <- read.table("final.subsets/3.2.NAG.frq", header=T)
+WIL.freq <- read.table("final.subsets/3.3.WIL.frq", header=T)
+HOP.freq <- read.table("final.subsets/3.4.HOP.frq", header=T)
+CHR.freq <- read.table("final.subsets/4.1.CHR.frq", header=T)
+IBA.freq <- read.table("final.subsets/4.2.IBA.frq", header=T)
+HOC.freq <- read.table("final.subsets/4.3.HOC.frq", header=T)
+UNT.freq <- read.table("final.subsets/4.4.UNT.frq", header=T)
 
+par(mfrow=c(4,3))
+my.bin.width <- 0.05
+hist(BRU.freq$MAF, main="BRU final (1668; 7) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(ZIN.freq$MAF, main="ZIN final (1668; 8) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(ZIV.freq$MAF, main="ZIV final (1668; 7) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(NAG.freq$MAF, main="NAG final (1668; 6) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(WIL.freq$MAF, main="WIL final (1668; 6) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(HOP.freq$MAF, main="HOP final (1668; 6) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(CHR.freq$MAF, main="CHR final (1668; 8) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(IBA.freq$MAF, main="IBA final (1668; 7) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(HOC.freq$MAF, main="HOC final (1668; 10) SFS", breaks=seq(0,0.5, by=my.bin.width))
+hist(UNT.freq$MAF, main="UNT final (1668; 6) SFS", breaks=seq(0,0.5, by=my.bin.width))
+
+
+BRU.ld <- read.table("final.subsets/1.BRU.ld", header=T)
+ZIN.ld <- read.table("final.subsets/2.ZIN.ld", header=T)
+ZIV.ld <- read.table("final.subsets/3.1.ZIV.ld", header=T)
+NAG.ld <- read.table("final.subsets/3.2.NAG.ld", header=T)
+WIL.ld <- read.table("final.subsets/3.3.WIL.ld", header=T)
+HOP.ld <- read.table("final.subsets/3.4.HOP.ld", header=T)
+CHR.ld <- read.table("final.subsets/4.1.CHR.ld", header=T)
+IBA.ld <- read.table("final.subsets/4.2.IBA.ld", header=T)
+HOC.ld <- read.table("final.subsets/4.3.HOC.ld", header=T)
+UNT.ld <- read.table("final.subsets/4.4.UNT.ld", header=T)
+
+par(mfrow=c(4,3))
+my.bin.width <- 0.05
+hist(BRU.ld$R2, main="BRU final (1668; 7) LD", breaks=seq(0,1, by=my.bin.width))
+hist(ZIN.ld$R2, main="ZIN final (1668; 8) LD", breaks=seq(0,1, by=my.bin.width))
+hist(ZIV.ld$R2, main="ZIV final (1668; 7) LD", breaks=seq(0,1, by=my.bin.width))
+hist(NAG.ld$R2, main="NAG final (1668; 6) LD", breaks=seq(0,1, by=my.bin.width))
+hist(WIL.ld$R2, main="WIL final (1668; 6) LD", breaks=seq(0,1, by=my.bin.width))
+hist(HOP.ld$R2, main="HOP final (1668; 6) LD", breaks=seq(0,1, by=my.bin.width))
+hist(CHR.ld$R2, main="CHR final (1668; 8) LD", breaks=seq(0,1, by=my.bin.width))
+hist(IBA.ld$R2, main="IBA final (1668; 7) LD", breaks=seq(0,1, by=my.bin.width))
+hist(HOC.ld$R2, main="HOC final (1668; 10) LD", breaks=seq(0,1, by=my.bin.width))
+hist(UNT.ld$R2, main="UNT final (1668; 6) LD", breaks=seq(0,1, by=my.bin.width))
 ```
+![alt_txt][SFS.final]
+[SFS.final]:https://cloud.githubusercontent.com/assets/12142475/20675734/99feba54-b58d-11e6-8e07-40dda1b717f6.png
+
+![alt_txt][LD.final]
+[LD.final]:https://cloud.githubusercontent.com/assets/12142475/20675735/99feae24-b58d-11e6-9312-5f1383a1627b.png
+
+
 
 
 #Summary statistics
 
 Nr fixed loci per population
+
+```
+#And with only variable loci: 
+
+BRU.frq.var <- subset(BRU.freq, MAF>0.001)
+ZIN.frq.var <- subset(ZIN.freq, MAF>0.001)
+ZIV.frq.var <- subset(ZIV.freq, MAF>0.001)
+NAG.frq.var <- subset(NAG.freq, MAF>0.001)
+WIL.frq.var <- subset(WIL.freq, MAF>0.001)
+HOP.frq.var <- subset(HOP.freq, MAF>0.001)
+CHR.frq.var <- subset(CHR.freq, MAF>0.001) 
+IBA.frq.var <- subset(IBA.freq, MAF>0.001) 
+HOC.frq.var <- subset(HOC.freq, MAF>0.001) 
+UNT.frq.var <- subset(UNT.freq, MAF>0.001) 
+
+
+##Loci variable in x populations
+BV.var.loci.freq <- do.call(rbind, lapply(ls(pattern=".frq.var$"), get))
+summary(BV.var.loci.freq)
+BV.var.loci.freq.keep <- data.frame(table(BV.var.loci.freq$SNP)) 
+#SE.var.loci.freq.keep <- subset(SE.var.loci.freq.keep, Freq>0) 
+hist(BV.var.loci.freq.keep$Freq, xlab="Nr pops", ylab="Frequency", main="BV: Frequency of variable loci across pops", breaks=seq(0.5,9.5, by=1.0))
+```
+
+Fixed loci
+
+```
+###Looking only at fixed loci
+
+BRU.frq.fix <- subset(BRU.freq, MAF<0.001)  ##399 loci
+ZIN.frq.fix <- subset(ZIN.freq, MAF<0.001)  ##409
+ZIV.frq.fix <- subset(ZIV.freq, MAF<0.001)  ##380
+NAG.frq.fix <- subset(NAG.freq, MAF<0.001)  ##385
+WIL.frq.fix <- subset(WIL.freq, MAF<0.001)  ##341
+HOP.frq.fix <- subset(HOP.freq, MAF<0.001)  ##429
+CHR.frq.fix <- subset(CHR.freq, MAF<0.001) ##346
+IBA.frq.fix <- subset(IBA.freq, MAF<0.001)  ##476
+HOC.frq.fix <- subset(HOC.freq, MAF<0.001)  ##289
+UNT.frq.fix <- subset(UNT.freq, MAF<0.001)  ##457
+
+
+
+BV.region.frq.fix.table <- do.call(rbind, lapply(ls(pattern="fix$"), get))
+
+BV.fix.region.table.keep <- data.frame(table(BV.region.frq.fix.table$SNP))
+BV.fix.region.table.keep <- subset(BV.fix.region.table.keep, Freq>0)
+my.bin.width=1
+hist(BV.fix.region.table.keep$Freq, xlab="Number of pops", ylab="Frequency", main="BV: Frequency of fixed loci found in increasing number of populations", breaks=seq(0.5,9.5, by=1))
+```
+
+![alt_txt][fixed.loci]
+[fixed.loci]:https://cloud.githubusercontent.com/assets/12142475/20677295/e8f0f4ec-b592-11e6-996b-190caf37656f.png
+
+![alt_txt][variable.loci]
+[variable.loci]:https://cloud.githubusercontent.com/assets/12142475/20677327/fdd25f36-b592-11e6-87df-f43761bf6ad6.png
 
 
 
