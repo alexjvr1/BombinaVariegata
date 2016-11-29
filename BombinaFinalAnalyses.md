@@ -980,6 +980,19 @@ CLUMPP paramfile -k 2 -i K2.Q.indfile.txt -o K2.meanQ.out
 ```
 
 
+###Hierarchy 1: 
+
+Structure on only Middle and East seperately: 
+Mid
+```
+vcftools --vcf BV.71.1665.FINAL.vcf --keep BV.Middle/Middle.names --out BV.Middle/BV.25.Mid.vcf
+
+```
+
+East
+```
+vcftools --vcf BV.71.1665.FINAL.vcf --keep BV.East/East.names --out BV.East/BV.31.East.vcf
+```
 
 ##TESS3
 
