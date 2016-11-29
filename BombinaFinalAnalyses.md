@@ -426,7 +426,7 @@ plink --file BV.s5.hwe --exclude LD.loci.remove.names --recode --recodeA --out B
 
 Final dataset: 
 
-72 individuals
+71 individuals  (see below, 1 individual is removed)
 
 10 populations
 
@@ -460,7 +460,7 @@ And remove individuals with >45% missing data
 
 Only IBA.05 needs to be removed. 
 ```
-vcftools --vcf BV.s5.vcf --remove lowDP.indiv --recode --recode-INFO-all --out BV.72.1665
+vcftools --vcf BV.s5.vcf --remove lowDP.indiv --recode --recode-INFO-all --out BV.71.1665
 ```
 
 ![alt.txt][final.missing]
@@ -589,23 +589,8 @@ hist(BV.fix.region.table.keep$Freq, xlab="Number of pops", ylab="Frequency", mai
 [fixed.loci]:https://cloud.githubusercontent.com/assets/12142475/20677295/e8f0f4ec-b592-11e6-996b-190caf37656f.png
 
 ![alt_txt][variable.loci]
-[variable.loci]:https://cloud.githubusercontent.com/assets/12142475/20677327/fdd25f36-b592-11e6-87df-f43761bf6ad6.png
-
-
-
-#Population Structure
-
-##Fst
-
-Convert plink s5 to structure using pgdspider, and import into R
 
 ```
-/Users/alexjvr/2016RADAnalysis/Bombina/BV234/Analyses_20161128/SumStats/BV.71.1665.str
-
-library(adegenet)
-library(hierfstat)
-library(reshape)
-
 BV.71 <- read.structure("BV.71.1665.str")
 BV.71
 
@@ -856,12 +841,79 @@ K1-10, 5 reps each
 
 Run fastStructure on gdcserver
 
+First convert to PLINK. This way it is easier to keep track of the sample order. 
+
 ```
-1052  /usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 10 --format=str --input=BV.71.1665 --output=CHall.Data1_K10.5
+rawdataAnalysis/BV.71.1665.recode.vcf fastSTRUCTURE/
+cd fastSTRUCTURE/
+vcftools --vcf BV.71.1665.recode.vcf --plink --out BV.71.1665.plink
+plink --file BV.71.1665.plink --recode --recodeA --out BV.71.1665.plink
+plink --file BV.71.1665.plink --out BV.71.1665 --make-bed
+scp -r BV.71.1665.FULLdata/ alexjvr@gdcsrv1.ethz.ch:/gdc_home4/alexjvr/Bombina/Analysis.BV234/fastStructure/
+```
+
+
+On GDCserver: 
+
+
+```
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 2 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K2.1
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 2 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K2.2
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 2 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K2.3
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 2 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K2.4
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 2 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K2.5
+
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 3 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K3.1
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 3 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K3.2
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 3 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K3.3
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 3 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K3.4
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 3 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K3.5
+
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 4 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K4.1
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 4 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K4.2
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 4 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K4.3
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 4 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K4.4
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 4 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K4.5
+
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 5 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K5.1
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 5 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K5.2
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 5 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K5.3
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 5 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K5.4
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 5 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K5.5
+
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 6 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K6.1
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 6 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K6.2
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 6 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K6.3
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 6 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K6.4
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 6 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K6.5
+
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 7 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K7.1
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 7 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K7.2
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 7 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K7.3
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 7 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K7.4
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 7 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K7.5
+
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 8 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K8.1
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 8 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K8.2
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 8 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K8.3
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 8 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K8.4
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 8 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K8.5
+
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 9 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K9.1
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 9 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K9.2
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 9 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K9.3
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 9 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K9.4
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 9 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K9.5
+
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 10 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K10.1
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 10 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K10.2
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 10 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K10.3
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 10 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K10.4
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 10 --format=bed --input=BV.71.1665 --output=K2-10.plinkinput/BV.K10.5
 ```
 
 ```
-/usr/bin/python2.6 /usr/local/fastStructure-20150714/chooseK.py --input=CHall.Data1_K*
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/chooseK.py --input=K2-10.plinkinput/BV.K*
 Model complexity that maximizes marginal likelihood = 1
 Model components used to explain structure in data = 6
 ```
