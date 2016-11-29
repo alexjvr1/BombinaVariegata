@@ -590,6 +590,41 @@ hist(BV.fix.region.table.keep$Freq, xlab="Number of pops", ylab="Frequency", mai
 
 ![alt_txt][variable.loci]
 
+
+
+##AvgHet
+
+Based on the .phy output file on gdcsrv1. 
+Looking at the .loci file, the data looks to have assembled fairly well. 
+
+This estimate should be fairly accurate, since it is on a per individual basis, and excludes all Ns and missing data (dashes). Although it might be slightly higher than expected since singletons are still included. 
+
+```
+#Missing data
+tr -d -c 'N\n'< BV234.phy |awk '{print length; }'
+##gaps
+sed 's/[^-]//g' BV234.phy |awk '{print length}'
+
+#Transitions
+tr -d -c 'R\n'< BV234.phy |awk '{print length; }'
+tr -d -c 'Y\n'< BV234.phy |awk '{print length; }'
+
+#Transversions
+tr -d -c 'S\n'< BV234.phy |awk '{print length; }'
+tr -d -c 'W\n'< BV234.phy |awk '{print length; }'
+tr -d -c 'K\n'< BV234.phy |awk '{print length; }'
+tr -d -c 'M\n'< BV234.phy |awk '{print length; }'
+
+##Print out all the names in the phylip file
+grep -Eo '^[^ ]+' BV234.phy 
+
+
+```
+
+
+
+
+##Fst
 ```
 BV.71 <- read.structure("BV.71.1665.str")
 BV.71
