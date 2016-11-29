@@ -852,7 +852,45 @@ plot(x,option="scores",pop=poplist)
 
 ##hierarchical fastStructure
 
-K1-10
+K1-10, 5 reps each
+
+Run fastStructure on gdcserver
+
+```
+1052  /usr/bin/python2.6 /usr/local/fastStructure-20150714/structure.py -K 10 --format=str --input=BV.71.1665 --output=CHall.Data1_K10.5
+```
+
+```
+/usr/bin/python2.6 /usr/local/fastStructure-20150714/chooseK.py --input=CHall.Data1_K*
+Model complexity that maximizes marginal likelihood = 1
+Model components used to explain structure in data = 6
+```
+
+Summarise structure plots with CLUMPP
+
+First, create a paramfile. This can be a copy of the example file. Specify Datatype 0 for individuals (vs 1 for pops), and number of individuals. Check the example from my run or from the example input for the chicken dataset. Most of the other CLUMPP parameters can be specified via command line, which will override the paramfile.
+
+indfiles need to be created: paste all the structure outputs for a specific K below each other. No headers.
+```
+cat CHall.Data1_K2.1.2.meanQ CHall.Data1_K2.2.2.meanQ CHall.Data1_K2.3.2.meanQ CHall.Data1_K2.4.2.meanQ CHall.Data1_K2.5.2.meanQ > K2.Q.meanQ
+cat CHall.Data1_K3.1.3.meanQ CHall.Data1_K3.2.3.meanQ CHall.Data1_K3.3.3.meanQ CHall.Data1_K3.4.3.meanQ CHall.Data1_K3.5.3.meanQ > K3.Q.meanQ
+cat CHall.Data1_K4.1.4.meanQ CHall.Data1_K4.2.4.meanQ CHall.Data1_K4.3.4.meanQ CHall.Data1_K4.4.4.meanQ CHall.Data1_K4.5.4.meanQ > K4.Q.meanQ
+cat CHall.Data1_K5.1.5.meanQ CHall.Data1_K5.2.5.meanQ CHall.Data1_K5.3.5.meanQ CHall.Data1_K5.4.5.meanQ CHall.Data1_K5.5.5.meanQ > K5.Q.meanQ
+cat CHall.Data1_K6.1.6.meanQ CHall.Data1_K6.2.6.meanQ CHall.Data1_K6.3.6.meanQ CHall.Data1_K6.4.6.meanQ CHall.Data1_K6.5.6.meanQ > K6.Q.meanQ
+cat CHall.Data1_K7.1.7.meanQ CHall.Data1_K7.2.7.meanQ CHall.Data1_K7.3.7.meanQ CHall.Data1_K7.4.7.meanQ CHall.Data1_K7.5.7.meanQ > K7.Q.meanQ
+cat CHall.Data1_K8.1.8.meanQ CHall.Data1_K8.2.8.meanQ CHall.Data1_K8.3.8.meanQ CHall.Data1_K8.4.8.meanQ CHall.Data1_K8.5.8.meanQ > K8.Q.meanQ
+cat CHall.Data1_K9.1.9.meanQ CHall.Data1_K9.2.9.meanQ CHall.Data1_K9.3.9.meanQ CHall.Data1_K9.4.9.meanQ CHall.Data1_K9.5.9.meanQ > K9.Q.meanQ
+cat CHall.Data1_K10.1.10.meanQ CHall.Data1_K10.2.10.meanQ CHall.Data1_K10.3.10.meanQ CHall.Data1_K10.4.10.meanQ CHall.Data1_K10.5.10.meanQ > K10.Q.meanQ
+```
+
+
+
+
+I've specified Greedy option 2
+
+```
+CLUMPP paramfile -k 2 -i K2.Q.indfile.txt -o K2.meanQ.out
+```
 
 
 
