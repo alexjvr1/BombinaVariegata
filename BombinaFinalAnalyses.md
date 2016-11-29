@@ -914,7 +914,7 @@ On GDCserver:
 
 ```
 /usr/bin/python2.6 /usr/local/fastStructure-20150714/chooseK.py --input=K2-10.plinkinput/BV.K*
-Model complexity that maximizes marginal likelihood = 1
+Model complexity that maximizes marginal likelihood = 2
 Model components used to explain structure in data = 6
 ```
 
