@@ -661,6 +661,17 @@ legend("bottom", popnames.all, xpd = TRUE, horiz = TRUE, inset = c(0, 0), bty="o
 [Fst.all]:https://cloud.githubusercontent.com/assets/12142475/20679243/5c7c4bc6-b59a-11e6-93fa-3e54711291e9.png
 
 
+Frequency of per locus Fst
+```
+BV.perloc <- stats.BV71$perloc
+qplot(BV71.perloc$Fst, geom="histogram", binwidth=0.005)
+```
+
+![alt_txt][Fst.freq]
+[Fst.freq]:https://cloud.githubusercontent.com/assets/12142475/20748674/656a241e-b6ef-11e6-8054-9654d0211e83.png
+
+
+
 ##IBD
 
 Fst/(1-Fst) vs log.dist(km) - according to Rousset et al. 1997, this is correlated with the effective population density (De) and effective dispersal distance (variance)
