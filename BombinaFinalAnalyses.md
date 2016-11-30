@@ -671,6 +671,13 @@ qplot(BV71.perloc$Fst, geom="histogram", binwidth=0.005)
 [Fst.freq]:https://cloud.githubusercontent.com/assets/12142475/20748674/656a241e-b6ef-11e6-8054-9654d0211e83.png
 
 
+Outlier locus:
+```
+BV.highFst <- subset(BV71.perloc, Fst>0.4)
+BV.highFst
+            Ho     Hs     Ht    Dst  Htp   Dstp    Fst   Fstp Fis   Dest
+X240046.110  0 0.0582 0.1138 0.0556 0.12 0.0618 0.4887 0.5151   1 0.0656
+
 
 ##IBD
 
