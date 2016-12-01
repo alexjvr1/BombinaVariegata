@@ -677,6 +677,7 @@ BV.highFst <- subset(BV71.perloc, Fst>0.4)
 BV.highFst
             Ho     Hs     Ht    Dst  Htp   Dstp    Fst   Fstp Fis   Dest
 X240046.110  0 0.0582 0.1138 0.0556 0.12 0.0618 0.4887 0.5151   1 0.0656
+```
 
 
 ##IBD
