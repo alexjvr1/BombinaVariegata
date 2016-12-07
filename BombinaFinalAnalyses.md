@@ -1016,3 +1016,36 @@ vcftools --vcf BV.71.1665.FINAL.vcf --keep BV.East/East.names --out BV.East/BV.3
 ##TESS3
 
 K1-10
+
+
+##EEMS
+
+3 input files needed 
+
+1. pairwise genetic distance
+
+2. polygon of coordinates
+
+3. coords file. 
+
+
+####1. pairwise genetic distance as calculated with bed2diffs
+
+/Users/alexjvr/2016RADAnalysis/Bombina/BV234/Analyses_20161128/EEMS
+```
+/Users/alexjvr/Applications/eems-master/bed2diffs/src-wout-openmp/bed2diffs_v1 --bfile BV71.FINAL.plink
+```
+
+
+####2. Polygon of coordinates. 
+
+Can be obtained here: 
+
+http://www.birdtheme.org/useful/v3tool.html
+
+
+####3. Coords file
+
+Coordinates for each individual. One line per sample. Two columns. 
+
+Same order as in the plink file. 
