@@ -1020,6 +1020,11 @@ K1-10
 
 ##EEMS
 
+Website: https://github.com/dipetkov/eems
+
+Tutorial: EEMS-doc.pdf
+
+
 3 input files needed 
 
 1. pairwise genetic distance
@@ -1031,10 +1036,13 @@ K1-10
 
 ####1. pairwise genetic distance as calculated with bed2diffs
 
+There's an application for SNP and for msat data. Be sure to use the correct one. 
+
 /Users/alexjvr/2016RADAnalysis/Bombina/BV234/Analyses_20161128/EEMS
 ```
 /Users/alexjvr/Applications/eems-master/bed2diffs/src-wout-openmp/bed2diffs_v1 --bfile BV71.FINAL.plink
 ```
+This creates a *.diffs file which will be used as the input
 
 
 ####2. Polygon of coordinates. 
